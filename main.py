@@ -100,3 +100,5 @@ with mp_maos.Hands(
 
 camera.release()
 cv2.destroyAllWindows()
+
+# feitopae
