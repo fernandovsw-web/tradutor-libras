@@ -8,8 +8,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 
-ARQUIVO_DADOS = os.path.join("dados", "pontos.csv")
-ARQUIVO_MODELO = os.path.join("modelo", "modelo_letras.joblib")
+ARQUIVO_DADOS = os.path.join("../dados", "pontos.csv")
+ARQUIVO_MODELO = os.path.join("../modelo", "modelo_letras.joblib")
 
 
 X, y = [], []
@@ -40,6 +40,6 @@ print(classification_report(y_teste, previsoes))
 
 
 modelo.fit(X, y)
-os.makedirs("modelo", exist_ok=True)
+os.makedirs("../modelo", exist_ok=True)
 joblib.dump(modelo, ARQUIVO_MODELO)
 print(f"\nModelo salvo em {ARQUIVO_MODELO}")

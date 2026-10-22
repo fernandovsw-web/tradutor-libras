@@ -4,7 +4,7 @@ import cv2
 import mediapipe as mp
 import joblib
 
-from utils import normalizar
+from Utilitários.utils import normalizar
 
 
 CAMINHO_MODELO = os.path.join("modelo", "modelo_letras.joblib")

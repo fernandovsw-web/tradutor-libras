@@ -5,14 +5,14 @@ import time
 import cv2
 import mediapipe as mp
 
-from utils import normalizar
+from Utilitários.utils import normalizar
 
 
 AMOSTRAS_POR_LETRA = 150
 ATRASO_INICIAL = 2
-ARQUIVO = os.path.join("dados", "pontos.csv")
+ARQUIVO = os.path.join("../dados", "pontos.csv")
 
-os.makedirs("dados", exist_ok=True)
+os.makedirs("../dados", exist_ok=True)
 
 mp_maos = mp.solutions.hands
 mp_desenho = mp.solutions.drawing_utils
