@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libras :D | Comunicação sem barreiras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="navbar">
+    <a class="logo" href="{{ url_for('inicio') }}">♡ Libras<span>:D</span></a>
+
+    <nav>
+        <a href="{{ url_for('inicio') }}">Início</a>
+        <a href="#sobre">Sobre o projeto</a>
+        <a class="nav-button" href="{{ url_for('tradutor') }}">Abrir tradutor</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="tag">TECNOLOGIA E ACESSIBILIDADE</span>
+
+            <h1>Conectando pessoas através da <span>Libras.</span></h1>
+
+            <p>
+                Explore uma nova forma de comunicação! Nosso projeto utiliza
+                reconhecimento de sinais para transformar
+                gestos treinados em texto.
+            </p>
+
+            <a class="primary-button" href="{{ url_for('tradutor') }}">
+                Começar a traduzir →
+            </a>
+
+            <p class="small-note">♡ Mais acessibilidade, conexão e inclusão.</p>
+        </div>
+
+        <div class="hero-art">
+            <div class="decor decor-one">♡</div>
+
+            <div class="hand-card">
+                <div class="hand-icon">🤟</div>
+                <span>Uma nova forma de se expressar</span>
+                <strong>Comunicação sem barreiras</strong>
+                <p>Aprender · Reconhecer · Conectar</p>
+            </div>
+
+            <div class="decor decor-two">✿</div>
+        </div>
+    </section>
+
+    <section id="sobre" class="about section">
+        <span class="tag">SOBRE O PROJETO</span>
+        <h2>Como funciona?</h2>
+
+        <p class="section-description">
+            O sistema utiliza uma câmera e um modelo desenvolvido em Python
+            para reconhecer sinais que foram incluídos no treinamento.
+        </p>
+
+        <div class="feature-grid">
+            <article class="feature-card">
+                <div class="feature-icon">📷</div>
+                <h3>1. Faça um sinal</h3>
+                <p>Posicione sua mão diante da câmera, em um local iluminado.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">✋</div>
+                <h3>2. Reconhecimento</h3>
+                <p>O modelo analisa a mão e procura identificar o sinal aprendido.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>3. Veja o resultado</h3>
+                <p>Confira o texto reconhecido e pratique com imagens de referência.</p>
+            </article>
+        </div>
+
+        <p class="disclaimer">
+            Este é um projeto experimental. Os resultados dependem dos sinais
+            treinados e não representam uma tradução completa de Libras.
+        </p>
+    </section>
+</main>
+
+<footer>
+    <p>♡ Libras:D · Projeto educacional de tecnologia e acessibilidade</p>
+</footer>
+
+</body>
+</html>

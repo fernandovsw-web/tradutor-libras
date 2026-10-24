@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libras+ | Tradutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+    <a class="logo" href="{{ url_for('inicio') }}">♡ Libras<span>+</span></a>
+
+    <nav>
+        <a href="{{ url_for('inicio') }}">← Voltar ao início</a>
+    </nav>
+</header>
+
+<main class="translator-page">
+    <section class="page-heading">
+        <span class="tag">ÁREA DE TRADUÇÃO</span>
+        <h1>Vamos conversar com as mãos? <span>♡</span></h1>
+        <p>Inicie a câmera e faça um dos sinais conhecidos pelo modelo.</p>
+    </section>
+
+    <div class="translator-grid">
+        <section class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Reconhecimento por câmera</h2>
+                    <p>Posicione a mão dentro da área de visualização.</p>
+                </div>
+
+                <span id="camera-status" class="status">
+                    Câmera desligada
+                </span>
+            </div>
+
+            <div class="camera-box">
+                <video id="camera" autoplay playsinline muted></video>
+
+                <div id="camera-placeholder" class="camera-placeholder">
+                    <span>📷</span>
+                    <p>Sua câmera aparecerá aqui</p>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button id="start-camera" class="primary-button" type="button">
+                    Iniciar câmera
+                </button>
+
+                <button id="stop-camera" class="secondary-button"
+                        type="button" disabled>
+                    Parar câmera
+                </button>
+            </div>
+
+            <p id="camera-message" class="helper-text" role="status">
+                Clique em iniciar para permitir o acesso à câmera.
+            </p>
+
+            <div class="result-box">
+                <span class="result-label">SINAL RECONHECIDO</span>
+                <p id="prediction">Aguardando reconhecimento...</p>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Imagem de referência</h2>
+                    <p>Escolha uma imagem do sinal que deseja praticar.</p>
+                </div>
+            </div>
+
+            <label for="sign-image" class="upload-area">
+                <span class="upload-icon">♡</span>
+                <strong>Carregue sua imagem</strong>
+                <span>PNG, JPG ou WEBP · Até 5 MB</span>
+                <span class="upload-button">Selecionar arquivo</span>
+            </label>
+
+            <input id="sign-image" type="file"
+                   accept="image/png,image/jpeg,image/webp" hidden>
+
+            <div id="image-preview-box" class="image-preview-box" hidden>
+                <img id="image-preview" alt="Imagem do sinal selecionado">
+                <button id="remove-image" class="secondary-button" type="button">
+                    Remover imagem
+                </button>
+            </div>
+
+            <div class="tip-box">
+                <span>💡</span>
+                <div>
+                    <strong>Dica para praticar</strong>
+                    <p>
+                        Escolha uma imagem nítida de um sinal e tente reproduzi-lo
+                        diante da câmera.
+                    </p>
+                </div>
+            </div>
+
+            <div class="result-box">
+                <span class="result-label">TEXTO TRADUZIDO</span>
+                <p id="translation">Sua tradução aparecerá aqui.</p>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <p>♡ Libras+ · Projeto experimental</p>
+</footer>
+
+</body>
+</html>
