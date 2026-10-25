@@ -5,3 +5,5 @@
 /httpRequests/
 # Python virtual environment
 /.venv/
+# VS Code settings
+/.vscode/
