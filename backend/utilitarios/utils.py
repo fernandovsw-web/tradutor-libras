@@ -21,6 +21,11 @@ imagem e do quão perto ela está da câmera. As funções daqui resolvem isso:
   punho) em um único vetor, usado para sinais que têm movimento.
 - para_tela: tira os acentos de um texto para ele poder ser escrito na
   janela do OpenCV.
+
+Além das funções, o arquivo guarda duas configurações usadas pelos scripts
+de sequências: FRAMES_POR_SINAL (quantas imagens formam um sinal) e
+MAX_FRAMES_PERDIDOS (quantas imagens sem a mão são toleradas dentro de um
+sinal).
  
 ENTRADAS E SAÍDAS
 -----------------
@@ -42,6 +47,14 @@ import numpy as np
 # Não é usada neste arquivo; fica aqui como configuração 
 # para os outros scripts que trabalham com sequências.
 FRAMES_POR_SINAL = 40
+
+# Quantas imagens, no total, podem ficar sem a mão detectada dentro de um
+# sinal com movimento. Nessas falhas curtas, o último formato e a última
+# posição conhecidos são repetidos para "tapar o buraco". Passou desse
+# limite, a repetição é descartada.
+# Também não é usada neste arquivo: a coleta e o reconhecimento importam
+# este valor e precisam usar o MESMO número.
+MAX_FRAMES_PERDIDOS = 6
 
 """
 Descreve o formato da mão independente de posição e tamanho.

@@ -11,7 +11,9 @@ depois serve para treinar o modelo.
  
 COMO FUNCIONA (passo a passo)
 -----------------------------
-1. Abre a webcam e o MediaPipe, que detecta a mão e marca os pontos dela.
+1. Abre a webcam (pedindo 30 imagens por segundo, para reduzir o borrão em
+   movimentos rápidos) e o MediaPipe, que detecta a mão e marca os pontos
+   dela.
 2. Na tela, você aperta uma tecla de número (1, 2, 3 ou 4) para escolher
    qual sinal da lista SINAIS vai gravar (1 = primeiro da lista, 2 = segundo
    e assim por diante).
@@ -25,8 +27,11 @@ COMO FUNCIONA (passo a passo)
    coluna é o sinal e as demais são os números da sequência.
 6. Entre uma repetição e outra há uma pausa (PAUSA_ENTRE) para você voltar
    à posição inicial. Isso se repete até completar REPETICOES gravações.
-7. Se a mão sumir da imagem no meio de uma gravação, ela é descartada e
-   refeita, para não entrar dado incompleto no arquivo.
+7. Se a mão sumir da imagem no meio de uma gravação, o programa tolera
+   falhas curtas: repete o último formato de mão conhecido para "tapar o
+   buraco" (até MAX_FRAMES_PERDIDOS imagens no total). Se a mão ficar sumida
+   por mais tempo que isso, a gravação é descartada e refeita, para não
+   entrar dado incompleto no arquivo.
 8. Para encerrar o programa, aperte ESC.
  
 ESTADOS DO PROGRAMA
@@ -53,8 +58,8 @@ SAÍDA
 DEPENDÊNCIAS
 ------------
 opencv-python (cv2), mediapipe e o módulo próprio Utilitários.utils
-(funções normalizar, posicao_punho, montar_sequencia e para_tela, além da
-constante FRAMES_POR_SINAL).
+(funções normalizar, posicao_punho, montar_sequencia e para_tela, além das
+constantes FRAMES_POR_SINAL e MAX_FRAMES_PERDIDOS).
 """
 
 # ---------------------------------------------------------------------------
@@ -66,7 +71,14 @@ import os
 import time
 import cv2
 import mediapipe as mp
-from Utilitários.utils import FRAMES_POR_SINAL, montar_sequencia, normalizar, para_tela, posicao_punho
+from utilitarios.utils import (
+    FRAMES_POR_SINAL,
+    MAX_FRAMES_PERDIDOS,
+    montar_sequencia,
+    normalizar,
+    para_tela,
+    posicao_punho,
+)
 import warnings
 # Esconde um aviso específico (da biblioteca do MediaPipe) que não afeta o
 # funcionamento do programa, só poluiria o terminal
@@ -78,7 +90,7 @@ warnings.filterwarnings("ignore", message=".*SymbolDatabase.GetPrototype.*")
 
 # Aqui colocar os sinais que quer ensinar pro random forest, da esquerda pra direita pra gravar, 
 # são salvos como 1, 2, 3 e 4
-SINAIS = ["H", "J", "X", "Z"]
+SINAIS = ["PROFESSOR", "MUITO", "BEM", "OLA"]
 
 # Pode ser alterado como quiserem pra ficar mais confortável de gravar
 REPETICOES = 30        # quantas vezes o sinal é gravado a cada sessão
@@ -101,6 +113,15 @@ mp_maos = mp.solutions.hands
 mp_desenho = mp.solutions.drawing_utils
 # Abre a webcam (CAP_DSHOW é o modo de captura usado no Windows)
 camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+# Pede à câmera 30 imagens por segundo, em 640x480, no formato MJPG: isso
+# costuma reduzir o atraso e o borrão em movimentos rápidos. Se a webcam não
+# aceitar, ela continua funcionando com os valores dela.
+camera.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+camera.set(cv2.CAP_PROP_FPS, 30)
+# Mostra o FPS que a câmera informou (se vier bem abaixo de 30, a webcam é o gargalo)
+print("FPS informado pela camera:", camera.get(cv2.CAP_PROP_FPS))
 
 # Variáveis que controlam o estado da gravação
 # Estados: ocioso -> preparar -> gravando -> pausa -> gravando -> ... -> ocioso
@@ -110,6 +131,7 @@ repeticao = 0          # quantas repetições já foram gravadas deste sinal
 inicio_estado = 0.0
 normalizados = []      # formato da mão em cada frame da repetição atual
 punhos = []            # posição do punho em cada frame da repetição atual
+perdidos = 0           # quantas imagens ficaram sem a mão detectada na repetição atual
 
 # Texto de ajuda mostrado na tela, ex.: "1=H  2=J  3=X  4=Z".
 # O para_tela tira acentos, porque o OpenCV não desenha letras acentuadas
@@ -121,10 +143,13 @@ legenda = "  ".join(f"{i + 1}={para_tela(s)}" for i, s in enumerate(SINAIS))
 
 # O "with" abre o CSV e o detector de mãos juntos e garante que ambos sejam
 # fechados corretamente no final. O detector procura no máximo 1 mão por imagem.
+# Os dois valores de confiança foram baixados para o MediaPipe achar a mão de
+# novo e segurá-la por mais tempo em movimentos rápidos. Se aparecerem pontos
+# "pulando" ou mãos falsas, suba esses valores.
 with open(ARQUIVO, "a", newline="") as arquivo, mp_maos.Hands(
     max_num_hands=1,
-    min_detection_confidence=0.7,
-    min_tracking_confidence=0.5,
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.3,
 ) as maos:
     escritor = csv.writer(arquivo)
 
@@ -164,45 +189,59 @@ with open(ARQUIVO, "a", newline="") as arquivo, mp_maos.Hands(
             espera = ATRASO_INICIAL if estado == "preparar" else PAUSA_ENTRE
             mensagem = f"Prepare {para_tela(sinal_atual)} ({repeticao + 1}/{REPETICOES})"
             
-            # Passou o tempo de espera: começa a gravar, com as listas zeradas
+            # Passou o tempo de espera: começa a gravar, com as listas e o
+            # contador de imagens perdidas zerados
             if agora - inicio_estado >= espera:
                 estado = "gravando"
                 normalizados, punhos = [], []
+                perdidos = 0
 
         else:
             # Estado "gravando": captura as imagens da repetição atual
             mensagem = f"FACA O SINAL {para_tela(sinal_atual)} ({repeticao + 1}/{REPETICOES})"
-            if mao is None:
-                # A mão sumiu no meio da gravação: descarta o que foi captado
-                # e volta para a pausa. A repetição NÃO é contada, então será
-                # refeita do zero.
-                print("Mao perdida; repetindo esta gravacao.")
-                estado = "pausa"
-                inicio_estado = agora
-            else:
+            if mao is not None:
                 # Guarda o formato da mão e a posição do punho desta imagem
                 normalizados.append(normalizar(mao))
                 punhos.append(posicao_punho(mao))
+            else:
+                # A mão sumiu nesta imagem: conta a falha
+                perdidos += 1
+                if normalizados and perdidos <= MAX_FRAMES_PERDIDOS:
+                    # Falha curta: repete o último formato e a última posição
+                    # conhecidos para "tapar o buraco" e a repetição continuar
+                    normalizados.append(normalizados[-1])
+                    punhos.append(punhos[-1])
+                else:
+                    # A mão ficou sumida por tempo demais (ou nem apareceu
+                    # ainda): descarta o que foi captado e volta para a
+                    # pausa. A repetição NÃO é contada, então será refeita
+                    # do zero.
+                    print(f"Mao perdida ({perdidos} frames); repetindo esta gravacao.")
+                    estado = "pausa"
+                    inicio_estado = agora
 
-                # Quando juntou imagens suficientes, a repetição está completa
-                if len(normalizados) >= FRAMES_POR_SINAL:
-                    # Junta todas as imagens em um único vetor (arredondado
-                    # para 5 casas decimais, para o arquivo ficar menor) e
-                    # grava como uma linha: sinal + números da sequência
-                    sequencia = montar_sequencia(normalizados, punhos).round(5)
-                    escritor.writerow([sinal_atual] + list(sequencia))
-                    repeticao += 1
+            # Quando juntou imagens suficientes, a repetição está completa
+            # (só vale se a gravação não foi descartada logo acima)
+            if estado == "gravando" and len(normalizados) >= FRAMES_POR_SINAL:
+                # Junta todas as imagens em um único vetor (arredondado
+                # para 5 casas decimais, para o arquivo ficar menor) e
+                # grava como uma linha: sinal + números da sequência
+                sequencia = montar_sequencia(normalizados, punhos).round(5)
+                escritor.writerow([sinal_atual] + list(sequencia))
+                repeticao += 1
+                if perdidos:
+                    print(f"  (repeticao salva com {perdidos} imagem(ns) preenchida(s))")
 
-                    if repeticao >= REPETICOES:
-                        # Terminou todas as repetições: salva no disco e
-                        # volta a esperar a escolha de outro sinal
-                        arquivo.flush()
-                        print(f"Sinal {sinal_atual} gravado ({REPETICOES} repeticoes).")
-                        estado = "ocioso"
-                    else:
-                        # Ainda faltam repetições: faz uma pausa e grava a próxima
-                        estado = "pausa"
-                        inicio_estado = agora
+                if repeticao >= REPETICOES:
+                    # Terminou todas as repetições: salva no disco e
+                    # volta a esperar a escolha de outro sinal
+                    arquivo.flush()
+                    print(f"Sinal {sinal_atual} gravado ({REPETICOES} repeticoes).")
+                    estado = "ocioso"
+                else:
+                    # Ainda faltam repetições: faz uma pausa e grava a próxima
+                    estado = "pausa"
+                    inicio_estado = agora
 
         # --- 4) Mostra a imagem com a mensagem de status na tela ---
         cv2.putText(frame, mensagem, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)

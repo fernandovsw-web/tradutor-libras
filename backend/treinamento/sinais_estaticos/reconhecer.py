@@ -52,7 +52,7 @@ from collections import Counter, deque
 import cv2
 import joblib
 import mediapipe as mp
-from Utilitários.utils import normalizar
+from utilitarios.utils import normalizar
 import warnings
 # Esconde um aviso específico (da biblioteca do MediaPipe) que não afeta o
 # funcionamento do programa, só poluiria o terminal. O filtro é colocado
