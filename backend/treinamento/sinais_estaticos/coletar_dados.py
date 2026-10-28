@@ -50,7 +50,7 @@ import os
 import time
 import cv2
 import mediapipe as mp
-from Utilitários.utils import normalizar
+from utilitarios.utils import normalizar
 
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÕES
