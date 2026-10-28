@@ -49,6 +49,7 @@ O modelo precisa já ter sido treinado e salvo antes de rodar este script.
 
 import os
 from collections import Counter, deque
+from pathlib import Path
 import cv2
 import joblib
 import mediapipe as mp
@@ -64,7 +65,8 @@ warnings.filterwarnings("ignore", message=".*SymbolDatabase.GetPrototype.*")
 # ---------------------------------------------------------------------------
 
 # Caminho do arquivo onde está o modelo já treinado
-ARQUIVO_MODELO = os.path.join("../modelo", "modelo_letras.joblib")
+BASE = Path(__file__).resolve().parents[1]   # backend/treinamento
+ARQUIVO_MODELO = BASE / "modelo" / "modelo_letras.joblib"
 # Confiança mínima (0.6 = 60%) para aceitar a letra que o modelo escolheu.
 # Abaixo disso, a leitura é tratada como incerta ("?")
 LIMITE_CONFIANCA = 0.6

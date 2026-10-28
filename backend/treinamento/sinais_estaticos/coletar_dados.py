@@ -51,6 +51,7 @@ import time
 import cv2
 import mediapipe as mp
 from utilitarios.utils import normalizar
+from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÕES
@@ -61,10 +62,14 @@ AMOSTRAS_POR_LETRA = 150
 # Tempo de espera (em segundos) entre apertar a tecla e começar a gravar,
 # para dar tempo de colocar a mão na posição da letra
 ATRASO_INICIAL = 2
-# Caminho do arquivo onde os dados serão salvos
-ARQUIVO = os.path.join("../dados", "pontos.csv")
+# coletar_dados.py está em backend/treinamento/sinais_estaticos/
+# parents[1] = backend/treinamento
+PASTA_DADOS = Path(__file__).resolve().parents[1] / "dados"
+PASTA_DADOS.mkdir(exist_ok=True)
+
+ARQUIVO = PASTA_DADOS / "pontos.csv"
 # Cria a pasta "dados" caso ela ainda não exista
-os.makedirs("../dados", exist_ok=True)
+PASTA_DADOS.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # PREPARAÇÃO: MEDIAPIPE E WEBCAM

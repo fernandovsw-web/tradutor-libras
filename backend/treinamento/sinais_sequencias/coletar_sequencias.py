@@ -97,11 +97,15 @@ REPETICOES = 30        # quantas vezes o sinal é gravado a cada sessão
 ATRASO_INICIAL = 2.0   # segundos para se posicionar antes da primeira gravação
 PAUSA_ENTRE = 1.5      # segundos para voltar à posição inicial entre cada gravação
 
-# Caminho do arquivo onde as sequências serão salvas
-ARQUIVO = os.path.join("../dados", "sequencias.csv")
+# coletar_dados.py está em backend/treinamento/sinais_estaticos/
+# parents[1] = backend/treinamento
+PASTA_DADOS = Path(__file__).resolve().parents[1] / "dados"
+PASTA_DADOS.mkdir(exist_ok=True)
+
+ARQUIVO = PASTA_DADOS / "sequencias.csv"
 
 # Cria a pasta "dados" caso ela ainda não exista
-os.makedirs("../dados", exist_ok=True)
+PASTA_DADOS.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # PREPARAÇÃO: MEDIAPIPE E WEBCAM

@@ -46,6 +46,7 @@ numpy, joblib e scikit-learn (sklearn).
 import csv
 import os
 from collections import Counter
+from zipfile import Path
 import joblib
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -56,8 +57,10 @@ from sklearn.model_selection import train_test_split
 # CONFIGURAÇÕES: onde ler os dados e onde salvar o modelo
 # ---------------------------------------------------------------------------
 
-ARQUIVO_DADOS = os.path.join("../dados", "pontos.csv")
-ARQUIVO_MODELO = os.path.join("../modelo", "modelo_letras.joblib")
+BASE = Path(__file__).resolve().parents[1]   # backend/treinamento
+
+ARQUIVO = BASE / "dados" / "pontos.csv"
+CAMINHO_MODELO = BASE / "modelo" / "modelo_letras.joblib"
 
 # ---------------------------------------------------------------------------
 # 1) LEITURA DOS DADOS
@@ -66,7 +69,7 @@ ARQUIVO_MODELO = os.path.join("../modelo", "modelo_letras.joblib")
 # X: os exemplos (números da mão)
 # y: as respostas certas (a letra de cada exemplo)
 X, y = [], []
-with open(ARQUIVO_DADOS) as arquivo:
+with open(ARQUIVO) as arquivo:
     for linha in csv.reader(arquivo):
         
         # Primeira coluna = letra
@@ -121,5 +124,5 @@ modelo.fit(X, y)
 # Cria a pasta "modelo" caso ainda não exista
 os.makedirs("../modelo", exist_ok=True)
 # Salva o modelo em arquivo para o reconhecer.py poder carregar depois
-joblib.dump(modelo, ARQUIVO_MODELO)
-print(f"\nModelo salvo em {ARQUIVO_MODELO}")
+joblib.dump(modelo, CAMINHO_MODELO)
+print(f"\nModelo salvo em {CAMINHO_MODELO}")
