@@ -33,13 +33,13 @@ Este é uma versão mais simples:
 - Não monta texto (não tem ESPAÇO nem BACKSPACE).
 - Confere se o modelo e a webcam existem antes de começar, com mensagens de
   erro claras.
-- Procura o modelo em "modelo/modelo_letras.joblib" (sem o "../"), então
+- Procura o modelo em "treinamento/modelo/modelo_letras.joblib" (sem o "../"), então
   este script deve ser executado a partir da pasta principal do projeto.
  
 ENTRADAS
 --------
 - Imagem da webcam (câmera 0).
-- Arquivo do modelo treinado: modelo/modelo_letras.joblib
+- Arquivo do modelo treinado: treinamento/modelo/modelo_letras.joblib
 - Tecla Q para sair.
  
 SAÍDA
@@ -49,7 +49,7 @@ SAÍDA
  
 DEPENDÊNCIAS
 ------------
-opencv-python (cv2), mediapipe, joblib e o módulo próprio Utilitários.utils.
+opencv-python (cv2), mediapipe, joblib e o módulo próprio utilitarios.utils.
 Usa o modelo de letras (sinais parados); os sinais com movimento não são
 tratados aqui.
 """
@@ -69,7 +69,7 @@ from utilitarios.utils import normalizar
 # ---------------------------------------------------------------------------
 
 # Caminho do arquivo onde está o modelo já treinado
-CAMINHO_MODELO = os.path.join("modelo", "modelo_letras.joblib")
+CAMINHO_MODELO = os.path.join("treinamento", "modelo", "modelo_letras.joblib")
 
 # Se o modelo ainda não foi criado, interrompe o programa com uma mensagem
 # explicando o que fazer
