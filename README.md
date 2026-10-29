@@ -7,4 +7,4 @@ Utiliza das bibliotecas externas OpenCV, MediaPipe, Joblib, Scikit-learn, Flask 
 
 Para a execução do projeto deve ser primeiramente instalado Python na versão mencionada acima, carregar o projeto e utilizar os seguintes comandos no terminal para instalar bibliotecas externas(note que aspas e vírgulas separam os comandos e não fazem parte deles): "pip install opencv-python", "pip install mediapipe", "pip install joblib", "pip install -U scikit-learn", "pip install virtualenv", "pip install Flask", "pip install numpy".
 
-Após esta configuração para executar o projeto em si utilize o seguinte comando no terminal: ".\.venv_libras\Scripts\python.exe web_app.py"
+Após esta configuração para executar o projeto em si utilize o seguinte comando no terminal: ".\\.venv\Scripts\python.exe web_app.py" (caso apareçam duas contrabarras juntas antes do .venv no comando remova uma delas) 
