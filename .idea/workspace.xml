@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e2f35b80-0ae5-48ce-a10b-75a1a956713f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/PythonProject1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProject1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/dados/pontos.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/dados/pontos.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_letras.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_letras.joblib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_sinais.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_sinais.joblib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/reconhecer.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/reconhecer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/coletar_sequencias.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/coletar_sequencias.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utilitarios/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utilitarios/utils.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.coletar_dados.executor": "Run",
+    "Python.coletar_sequencias.executor": "Run",
+    "Python.reconhecer.executor": "Run",
+    "Python.reconhecer_sinais.executor": "Run",
+    "Python.treinar.executor": "Run",
+    "Python.treinar_sequencias.executor": "Run",
+    "git-widget-placeholder": "main",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PythonProject1$reconhecer_sinais.coverage" NAME="reconhecer_sinais Coverage Results" MODIFIED="1793221158522" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_sequencias" />
+    <SUITE FILE_PATH="coverage/PythonProject1$coletar_sequencias.coverage" NAME="coletar_sequencias Coverage Results" MODIFIED="1793222310879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_sequencias" />
+    <SUITE FILE_PATH="coverage/PythonProject1$reconhecer.coverage" NAME="reconhecer Coverage Results" MODIFIED="1793216332784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_estaticos" />
+    <SUITE FILE_PATH="coverage/PythonProject1$treinar.coverage" NAME="treinar Coverage Results" MODIFIED="1793216255107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_estaticos" />
+    <SUITE FILE_PATH="coverage/PythonProject1$treinar_sequencias.coverage" NAME="treinar_sequencias Coverage Results" MODIFIED="1793221148871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_sequencias" />
+    <SUITE FILE_PATH="coverage/PythonProject1$coletar_dados.coverage" NAME="coletar_dados Coverage Results" MODIFIED="1793216479760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_estaticos" />
+  </component>
+</project>
