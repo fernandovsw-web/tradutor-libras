@@ -46,7 +46,7 @@ numpy, joblib e scikit-learn (sklearn).
 import csv
 import os
 from collections import Counter
-from zipfile import Path
+from pathlib import Path
 import joblib
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -122,7 +122,7 @@ print(classification_report(y_teste, previsoes))
 # com todos os dados (treino + teste), para aprender com o máximo de exemplos.
 modelo.fit(X, y)
 # Cria a pasta "modelo" caso ainda não exista
-os.makedirs("../modelo", exist_ok=True)
+CAMINHO_MODELO.parent.mkdir(parents=True, exist_ok=True)
 # Salva o modelo em arquivo para o reconhecer.py poder carregar depois
 joblib.dump(modelo, CAMINHO_MODELO)
 print(f"\nModelo salvo em {CAMINHO_MODELO}")

@@ -8,7 +8,7 @@ import cv2
 import joblib
 import mediapipe as mp
 
-from utilitarios.utils import (
+from backend.utilitarios.utils import (
     FRAMES_POR_SINAL,
     MAX_FRAMES_PERDIDOS,
     montar_sequencia,

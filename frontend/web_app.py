@@ -12,7 +12,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "modelo" / "modelo_letras.joblib"
+MODEL_PATH = BASE_DIR.parent / "backend" / "treinamento" / "modelo" / "modelo_letras.joblib"
 
 # Carrega o modelo treinado
 modelo = joblib.load(MODEL_PATH)

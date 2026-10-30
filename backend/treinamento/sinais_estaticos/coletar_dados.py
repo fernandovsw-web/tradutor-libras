@@ -50,7 +50,7 @@ import os
 import time
 import cv2
 import mediapipe as mp
-from utilitarios.utils import normalizar
+from backend.utilitarios.utils import normalizar
 from pathlib import Path
 
 # ---------------------------------------------------------------------------

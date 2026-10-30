@@ -72,7 +72,7 @@ import time
 import cv2
 import mediapipe as mp
 from pathlib import Path
-from utilitarios.utils import (
+from backend.utilitarios.utils import (
     FRAMES_POR_SINAL,
     MAX_FRAMES_PERDIDOS,
     montar_sequencia,

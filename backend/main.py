@@ -62,18 +62,19 @@ import os
 import cv2
 import mediapipe as mp
 import joblib
-from utilitarios import normalizar
+from pathlib import Path
+from backend.utilitarios.utils import normalizar
 
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÃO E VERIFICAÇÕES INICIAIS
 # ---------------------------------------------------------------------------
 
 # Caminho do arquivo onde está o modelo já treinado
-CAMINHO_MODELO = os.path.join("treinamento", "modelo", "modelo_letras.joblib")
+CAMINHO_MODELO = Path(__file__).resolve().parent / "treinamento" / "modelo" / "modelo_letras.joblib"
 
 # Se o modelo ainda não foi criado, interrompe o programa com uma mensagem
 # explicando o que fazer
-if not os.path.exists(CAMINHO_MODELO):
+if not CAMINHO_MODELO.exists():
     raise FileNotFoundError(
         "Modelo nao encontrado. Execute treinar.py primeiro."
     )
