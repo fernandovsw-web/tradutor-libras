@@ -1,15 +1,21 @@
-
 import base64
-from pathlib import Path
-
+import sys
 import cv2
 import joblib
 import mediapipe as mp
 import numpy as np
-
 from flask import Flask, render_template, request, jsonify
+from backend.traduzir import traduzir_bp
+from pathlib import Path
+# Este arquivo fica numa pasta ao lado de "backend". Ao rodar "python web_app.py",
+# o Python só enxerga a pasta do próprio arquivo, então a pasta principal do
+# projeto é adicionada ao caminho para o pacote "backend" ser encontrado.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 app = Flask(__name__)
+
+# Rota /api/traduzir: escolhe sozinha entre o modelo de letras e o de movimento
+app.register_blueprint(traduzir_bp)
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR.parent / "backend" / "treinamento" / "modelo" / "modelo_letras.joblib"

@@ -1,4 +1,3 @@
-
 const camera = document.getElementById("camera");
 const startButton = document.getElementById("start-camera");
 const stopButton = document.getElementById("stop-camera");
@@ -17,56 +16,110 @@ const translation = document.getElementById("translation");
 const canvas = document.createElement("canvas");
 const context = canvas.getContext("2d");
 
-let recognitionTimer = null;
-let sendingFrame = false;
+// Largura do frame enviado ao servidor (a altura segue a proporção da câmera).
+// Menor = mais frames por segundo, o que ajuda o modelo de sinais em movimento.
+const FRAME_WIDTH = 320;
+// Intervalo mínimo entre envios (~16 frames por segundo no máximo).
+const MIN_INTERVAL_MS = 60;
+// Espera após um erro de comunicação, para não sobrecarregar o servidor.
+const ERROR_RETRY_MS = 1000;
+ 
+// Identifica esta aba no servidor: o modelo de movimento precisa guardar os
+// últimos frames de cada pessoa entre uma requisição e outra.
+const sessionId = crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
 let cameraStream = null;
 let previewUrl = null;
 
-async function recognizeFrame() {
-    if (!cameraStream || camera.readyState < 2 || sendingFrame) {
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+function showResult(dados) {
+    // O servidor está gravando um sinal em movimento
+    if (dados.estado === "capturando") {
+        prediction.textContent = "Reconhecendo movimento...";
+        cameraMessage.textContent = "Movimento detectado. Conclua o sinal.";
         return;
     }
+ 
+    // Sinal reconhecido (letra estática ou sinal em movimento): mesmo campo
+    if (dados.texto) {
+        const porcentagem = dados.confianca != null
+            ? ` (${Math.round(dados.confianca * 100)}%)`
+            : "";
+        const tipo = dados.tipo === "movimento"
+            ? "Sinal em movimento reconhecido"
+            : "Sinal estático reconhecido";
+ 
+        prediction.textContent = dados.texto;
+        translation.textContent = dados.texto;
+        cameraMessage.textContent = `${tipo}${porcentagem}.`;
+        return;
+    }
+ 
+    prediction.textContent = "Nenhum sinal reconhecido";
+    translation.textContent = dados.mensagem || "";
+    cameraMessage.textContent = "Câmera ativa. Faça um sinal diante da câmera.";
+}
 
-    sendingFrame = true;
+// Envia UM frame e mostra a resposta. Devolve false se houve erro.
+async function recognizeFrame(stream) {
+    if (camera.readyState < 2 || !camera.videoWidth) {
+        return true;
+    }
 
     try {
-        canvas.width = camera.videoWidth;
-        canvas.height = camera.videoHeight;
+        canvas.width = FRAME_WIDTH;
+        canvas.height = Math.round(camera.videoHeight * FRAME_WIDTH / camera.videoWidth);
 
         context.drawImage(camera, 0, 0, canvas.width, canvas.height);
 
-        const imagem = canvas.toDataURL("image/jpeg", 0.65);
+        const imagem = canvas.toDataURL("image/jpeg", 0.7);
 
-        const resposta = await fetch("/api/reconhecer", {
+        const resposta = await fetch("/api/traduzir", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ imagem })
+            body: JSON.stringify({ imagem, sessao: sessionId })
         });
 
         const dados = await resposta.json();
+        
+        // A câmera foi parada enquanto o servidor respondia: ignora o resultado
+        if (cameraStream !== stream) {
+            return true;
+        }
 
         if (!resposta.ok) {
             cameraMessage.textContent =
                 dados.erro || "Erro ao reconhecer o sinal.";
-            return;
+            return false;
         }
 
-        if (dados.letra) {
-            prediction.textContent = dados.letra;
-            translation.textContent = dados.letra;
-        } else {
-            prediction.textContent = "Nenhuma letra reconhecida";
-            translation.textContent = dados.mensagem;
-        }
+        showResult(dados);
+        return true;
     } catch (error) {
         console.error("Erro na comunicação com o Flask:", error);
         cameraMessage.textContent =
             "Não foi possível conectar ao reconhecimento Python.";
-    } finally {
-        sendingFrame = false;
+        return false;
+    }
+}
+
+// Envia frames continuamente enquanto a câmera estiver ligada. Cada envio só
+// começa quando o anterior termina, então nunca há frames acumulando.
+async function recognitionLoop(stream) {
+    while (cameraStream === stream) {
+        const inicio = performance.now();
+        const ok = await recognizeFrame(stream);
+ 
+        const espera = ok
+            ? Math.max(0, MIN_INTERVAL_MS - (performance.now() - inicio))
+            : ERROR_RETRY_MS;
+ 
+        await sleep(espera);
     }
 }
 
@@ -76,7 +129,7 @@ async function startCamera() {
             "A câmera não está disponível neste endereço. Use localhost ou HTTPS.";
         return;
     }
-recognitionTimer = setInterval(recognizeFrame, 500);
+
     startButton.disabled = true;
     cameraMessage.textContent = "Solicitando acesso à câmera...";
 
@@ -95,9 +148,12 @@ recognitionTimer = setInterval(recognizeFrame, 500);
         cameraStatus.textContent = "Câmera ativa";
         cameraStatus.classList.add("active");
         cameraMessage.textContent =
-            "Câmera ativa. A previsão depende da integração com o modelo Python.";
+            "Câmera ativa. Faça um sinal diante da câmera.";
 
         stopButton.disabled = false;
+
+        // Só começa a reconhecer depois que a câmera abriu de verdade
+        recognitionLoop(cameraStream);
     } catch (error) {
         console.error("Erro ao abrir a câmera:", error);
 
@@ -120,12 +176,10 @@ recognitionTimer = setInterval(recognizeFrame, 500);
 function stopCamera() {
     if (cameraStream) {
         cameraStream.getTracks().forEach(track => track.stop());
+        // Ao ficar null, o recognitionLoop termina sozinho
         cameraStream = null;
     }
-if (recognitionTimer) {
-    clearInterval(recognitionTimer);
-    recognitionTimer = null;
-}
+
     camera.srcObject = null;
     camera.classList.remove("visible");
     cameraPlaceholder.classList.remove("hidden");
