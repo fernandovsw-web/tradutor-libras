@@ -71,6 +71,7 @@ import os
 import time
 import cv2
 import mediapipe as mp
+from pathlib import Path
 from utilitarios.utils import (
     FRAMES_POR_SINAL,
     MAX_FRAMES_PERDIDOS,
@@ -90,7 +91,7 @@ warnings.filterwarnings("ignore", message=".*SymbolDatabase.GetPrototype.*")
 
 # Aqui colocar os sinais que quer ensinar pro random forest, da esquerda pra direita pra gravar, 
 # são salvos como 1, 2, 3 e 4
-SINAIS = ["PROFESSOR", "MUITO", "BEM", "OLA"]
+SINAIS = ["K", "BEM", "ELE", "ENSINAR"]
 
 # Pode ser alterado como quiserem pra ficar mais confortável de gravar
 REPETICOES = 30        # quantas vezes o sinal é gravado a cada sessão
