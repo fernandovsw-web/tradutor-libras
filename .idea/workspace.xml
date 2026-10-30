@@ -4,15 +4,34 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2f35b80-0ae5-48ce-a10b-75a1a956713f" name="Changes" comment="">
+    <list default="true" id="e2f35b80-0ae5-48ce-a10b-75a1a956713f" name="Changes" comment="FRONT mais back">
       <change beforePath="$PROJECT_DIR$/.idea/PythonProject1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProject1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/treinamento/dados/pontos.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/dados/pontos.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_letras.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_letras.joblib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_sinais.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_sinais.joblib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/reconhecer.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/reconhecer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/coletar_sequencias.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/coletar_sequencias.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/utilitarios/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/utilitarios/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/dados/pontos.csv" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/dados/pontos.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/dados/sequencias.csv" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/dados/sequencias.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_letras.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/modelo/modelo_letras.joblib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/modelo/modelo_sinais.joblib" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/modelo/modelo_sinais.joblib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_estaticos/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/coletar_dados.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_estaticos/coletar_dados.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/passo1_maos.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_estaticos/passo1_maos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/reconhecer.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_estaticos/reconhecer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_estaticos/treinar.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_estaticos/treinar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_sequencias/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/coletar_sequencias.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_sequencias/coletar_sequencias.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/reconhecer_sinais.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_sequencias/reconhecer_sinais.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/treinamento/sinais_sequencias/treinar_sequencias.py" beforeDir="false" afterPath="$PROJECT_DIR$/treinamento/sinais_sequencias/treinar_sequencias.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utilitarios/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilitarios/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/utilitarios/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilitarios/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/templates/tradutor.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tradutor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web_app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +41,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "nadinyvent"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/fernandovsw-web/tradutor-libras",
+    "accountId": "e21beddb-9ac9-4909-ae44-49273ba8ff9e"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3LOHYdOWsK244QbjzbVYsiZbFnC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.coletar_dados.executor": "Run",
@@ -30,12 +70,76 @@
     "Python.reconhecer_sinais.executor": "Run",
     "Python.treinar.executor": "Run",
     "Python.treinar_sequencias.executor": "Run",
+    "Python.web_app.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "python.packages.toolwindow.project.migrated.to.right.top.v2": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Nadiny\PycharmProjects\tradutor-libras" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="web_app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PythonProject1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/web_app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.web_app" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-73a66231627c-5bd6d13a2a75-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-262.10968.92" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e2f35b80-0ae5-48ce-a10b-75a1a956713f" name="Changes" comment="FRONT mais back" />
+      <created>1793318260948</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1793318260948</updated>
+    </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PythonProject1$reconhecer_sinais.coverage" NAME="reconhecer_sinais Coverage Results" MODIFIED="1793221158522" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/treinamento/sinais_sequencias" />

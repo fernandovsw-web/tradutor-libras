@@ -62,7 +62,7 @@ import os
 import cv2
 import mediapipe as mp
 import joblib
-from utilitarios.utils import normalizar
+from utilitarios import normalizar
 
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÃO E VERIFICAÇÕES INICIAIS
