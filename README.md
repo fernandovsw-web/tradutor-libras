@@ -203,8 +203,8 @@ Os sinais ficam na lista `SINAIS` de `coletar_sequencias.py` (teclas 1 a 4).
 - IBGE. PNS 2019: país tem 17,3 milhões de pessoas com algum tipo de deficiência. 2021.
 
 ## Equipe
-Fernando Valim da Silva
-Franco Severo Biasio
-Lucas da Fonseca Perin
-Nadiny Venturini da Silva
-Paolo Antônio Junges
+- Fernando Valim da Silva
+- Franco Severo Biasio
+- Lucas da Fonseca Perin
+- Nadiny Venturini da Silva
+- Paolo Antônio Junges
