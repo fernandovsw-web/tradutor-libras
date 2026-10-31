@@ -33,7 +33,10 @@ Cada função explica o que recebe e o que devolve logo abaixo.
  
 DEPENDÊNCIAS
 ------------
-numpy e unicodedata (esta última já vem com o Python).
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- numpy 2.4.6
+- unicodedata (já vem com o Python, não precisa instalar)
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
@@ -52,19 +55,18 @@ FRAMES_POR_SINAL = 40
 # sinal com movimento. Nessas falhas curtas, o último formato e a última
 # posição conhecidos são repetidos para "tapar o buraco". Passou desse
 # limite, a repetição é descartada.
-# Também não é usada neste arquivo: a coleta e o reconhecimento importam
-# este valor e precisam usar o MESMO número.
+# Também não é usada neste arquivo: a coleta, tradução e o reconhecimento 
+# importam este valor e precisam usar o MESMO número.
 MAX_FRAMES_PERDIDOS = 6
 
-"""
-Descreve o formato da mão independente de posição e tamanho.
-
-Recebe: a mão detectada pelo MediaPipe (com a lista de pontos).
-Devolve: um vetor com os números dos pontos 
-(x, y, z de cada ponto, um atrás do outro), todos entre -1 e 1.
-"""
 def normalizar(mao):
+    """
+    Descreve o formato da mão independente de posição e tamanho.
 
+    Recebe: a mão detectada pelo MediaPipe (com a lista de pontos).
+    Devolve: um vetor com os números dos pontos 
+    (x, y, z de cada ponto, um atrás do outro), todos entre -1 e 1.
+    """
     # Monta uma tabela com uma linha por ponto da mão e as colunas x, y, z
     pontos = np.array([[p.x, p.y, p.z] for p in mao.landmark])
     # Usa o ponto 0 (o punho) como referência: subtrai ele de todos os pontos.
@@ -83,31 +85,29 @@ def normalizar(mao):
     # que vai para o CSV e para o modelo
     return pontos.flatten()
 
-"""
-Devolve a posição do punho na imagem.
-
-Recebe: a mão detectada pelo MediaPipe.
-Devolve: um vetor com [x, y] do punho (ponto 0). O z não é usado aqui.
-"""
 def posicao_punho(mao):
+    """
+    Devolve a posição do punho na imagem.
 
+    Recebe: a mão detectada pelo MediaPipe.
+    Devolve: um vetor com [x, y] do punho (ponto 0). O z não é usado aqui.
+    """
     p = mao.landmark[0]
     return np.array([p.x, p.y])
 
-"""
-Junta várias imagens seguidas em um único vetor, para representar
-um sinal com movimento.
-
-Recebe:
-    normalizados: lista com o formato da mão de cada imagem
-                    (resultado da função normalizar).
-    punhos: lista com a posição do punho de cada imagem
-            (resultado da função posicao_punho).
-Devolve: um vetor grande com, para cada imagem, o formato da mão
-seguido de quanto o punho se moveu.
-"""
 def montar_sequencia(normalizados, punhos):
+    """
+    Junta várias imagens seguidas em um único vetor, para representar
+    um sinal com movimento.
 
+    Recebe:
+        normalizados: lista com o formato da mão de cada imagem
+                        (resultado da função normalizar).
+        punhos: lista com a posição do punho de cada imagem
+                (resultado da função posicao_punho).
+    Devolve: um vetor grande com, para cada imagem, o formato da mão
+    seguido de quanto o punho se moveu.
+    """
     # A posição do punho na primeira imagem é o ponto de partida.
     # Todas as outras posições são medidas em relação a ela.
     origem = punhos[0]
@@ -123,16 +123,16 @@ def montar_sequencia(normalizados, punhos):
     # Emenda tudo em um vetor só, na ordem das imagens
     return np.concatenate(partes)
 
-"""
-Tira os acentos de um texto.
-
-Recebe: um texto qualquer, por exemplo "Atenção".
-Devolve: o mesmo texto sem acentos, por exemplo "Atencao".
-
-Serve porque o cv2.putText (que escreve texto na janela da câmera)
-não consegue desenhar letras acentuadas.
-"""
 def para_tela(texto):
+    """
+    Tira os acentos de um texto.
+
+    Recebe: um texto qualquer, por exemplo "Atenção".
+    Devolve: o mesmo texto sem acentos, por exemplo "Atencao".
+
+    Serve porque o cv2.putText (que escreve texto na janela da câmera)
+    não consegue desenhar letras acentuadas.
+    """
     # NFD separa cada letra acentuada em "letra + acento".
     # Depois o encode para ASCII com "ignore" descarta os acentos (que não
     # existem em ASCII) e o decode volta para texto normal.

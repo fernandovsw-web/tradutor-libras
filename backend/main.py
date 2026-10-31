@@ -33,13 +33,16 @@ Este é uma versão mais simples:
 - Não monta texto (não tem ESPAÇO nem BACKSPACE).
 - Confere se o modelo e a webcam existem antes de começar, com mensagens de
   erro claras.
-- Procura o modelo em "treinamento/modelo/modelo_letras.joblib" (sem o "../"), então
-  este script deve ser executado a partir da pasta principal do projeto.
+- Procura o modelo em "treinamento/modelo/", que fica ao lado deste
+  arquivo (o caminho é montado a partir do próprio main.py), então não depende
+  da pasta em que o terminal está aberto. Já o pacote "backend" (usado no
+  import) precisa estar acessível: veja no README como rodar.
  
 ENTRADAS
 --------
 - Imagem da webcam (câmera 0).
-- Arquivo do modelo treinado: treinamento/modelo/modelo_letras.joblib
+- Arquivo do modelo treinado: treinamento/modelo/modelo_letras.joblib (a pasta
+  "treinamento" fica ao lado do main.py)
 - Tecla Q para sair.
  
 SAÍDA
@@ -49,16 +52,22 @@ SAÍDA
  
 DEPENDÊNCIAS
 ------------
-opencv-python (cv2), mediapipe, joblib e o módulo próprio utilitarios.utils.
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- opencv-python 5.0.0.93 (cv2)
+- mediapipe 0.10.14
+- joblib 1.6.0
+- scikit-learn 1.9.1 (necessário para abrir o modelo salvo)
+- módulo próprio backend.utilitarios.utils (que usa numpy 2.4.6)
 Usa o modelo de letras (sinais parados); os sinais com movimento não são
-tratados aqui.
+tratados aqui. O modelo precisa ter sido treinado na mesma versão do
+scikit-learn (se trocar de versão, treine de novo).
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
 # IMPORTS
 # ---------------------------------------------------------------------------
 
-import os
 import cv2
 import mediapipe as mp
 import joblib

@@ -30,7 +30,10 @@ SAÍDA
  
 DEPENDÊNCIAS
 ------------
-opencv-python (cv2) e mediapipe.
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- opencv-python 5.0.0.93 (cv2)
+- mediapipe 0.10.14
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------

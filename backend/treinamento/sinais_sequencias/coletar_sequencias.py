@@ -3,11 +3,11 @@ coletar_sequencias.py
  
 PARA QUE SERVE
 --------------
-Coleta os dados de treino dos sinais que têm MOVIMENTO (no projeto: H, J, X
-e Z). Diferente do coletar_dados.py, que grava o formato da mão em uma única
-imagem, este script grava uma sequência de várias imagens seguidas, para
-guardar também o caminho que a mão faz no ar. Os dados ficam em um CSV, que
-depois serve para treinar o modelo.
+Coleta os dados de treino dos sinais que têm MOVIMENTO (no projeto: K, BEM,
+ELE e ENSINAR, que estão na lista SINAIS). Diferente do coletar_dados.py, que 
+grava o formato da mão em uma única imagem, este script grava uma sequência 
+de várias imagens seguidas, para guardar também o caminho que a mão faz no 
+ar. Os dados ficam em um CSV, que depois serve para treinar o modelo.
  
 COMO FUNCIONA (passo a passo)
 -----------------------------
@@ -51,15 +51,22 @@ ENTRADAS
  
 SAÍDA
 -----
-- Arquivo ../dados/sequencias.csv (a pasta é criada se não existir).
+- Arquivo backend/treinamento/dados/sequencias.csv (a pasta é criada 
+  se não existir).
   Atenção: o arquivo é aberto em modo "a" (acrescentar), então rodar o
-  script de novo ADICIONA linhas novas, sem apagar as que já existem.
+  script de novo ADICIONA linhas novas, sem apagar as que já existem. Se o
+  arquivo ainda tiver gravações de sinais antigos, elas continuam lá e entram
+  no treino (veja treinar_sequencias.py).
  
 DEPENDÊNCIAS
 ------------
-opencv-python (cv2), mediapipe e o módulo próprio Utilitários.utils
-(funções normalizar, posicao_punho, montar_sequencia e para_tela, além das
-constantes FRAMES_POR_SINAL e MAX_FRAMES_PERDIDOS).
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- opencv-python 5.0.0.93 (cv2)
+- mediapipe 0.10.14
+- módulo próprio backend.utilitarios.utils (que usa numpy 2.4.6): funções
+  normalizar, posicao_punho, montar_sequencia e para_tela, além das
+  constantes FRAMES_POR_SINAL e MAX_FRAMES_PERDIDOS.
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
@@ -67,7 +74,6 @@ constantes FRAMES_POR_SINAL e MAX_FRAMES_PERDIDOS).
 # ---------------------------------------------------------------------------
 
 import csv
-import os
 import time
 import cv2
 import mediapipe as mp
@@ -98,15 +104,13 @@ REPETICOES = 30        # quantas vezes o sinal é gravado a cada sessão
 ATRASO_INICIAL = 2.0   # segundos para se posicionar antes da primeira gravação
 PAUSA_ENTRE = 1.5      # segundos para voltar à posição inicial entre cada gravação
 
-# coletar_dados.py está em backend/treinamento/sinais_estaticos/
+# coletar_sequencias.py está em backend/treinamento/sinais_sequencias/
 # parents[1] = backend/treinamento
 PASTA_DADOS = Path(__file__).resolve().parents[1] / "dados"
+# Cria a pasta "dados" caso ela ainda não exista
 PASTA_DADOS.mkdir(exist_ok=True)
 
 ARQUIVO = PASTA_DADOS / "sequencias.csv"
-
-# Cria a pasta "dados" caso ela ainda não exista
-PASTA_DADOS.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # PREPARAÇÃO: MEDIAPIPE E WEBCAM
@@ -138,7 +142,7 @@ normalizados = []      # formato da mão em cada frame da repetição atual
 punhos = []            # posição do punho em cada frame da repetição atual
 perdidos = 0           # quantas imagens ficaram sem a mão detectada na repetição atual
 
-# Texto de ajuda mostrado na tela, ex.: "1=H  2=J  3=X  4=Z".
+# Texto de ajuda mostrado na tela, ex.: "1=K  2=BEM  3=ELE  4=ENSINAR".
 # O para_tela tira acentos, porque o OpenCV não desenha letras acentuadas
 legenda = "  ".join(f"{i + 1}={para_tela(s)}" for i, s in enumerate(SINAIS))
 

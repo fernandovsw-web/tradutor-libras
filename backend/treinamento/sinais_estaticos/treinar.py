@@ -27,16 +27,23 @@ COMO FUNCIONA (passo a passo)
  
 ENTRADA
 -------
-- Arquivo ../dados/pontos.csv (gerado pelo coletar_dados.py).
+- Arquivo  backend/treinamento/dados/pontos.csv (gerado pelo coletar_dados.py).
  
 SAÍDA
 -----
-- Arquivo ../modelo/modelo_letras.joblib (a pasta é criada se não existir).
+- Arquivo backend/treinamento/modelo/modelo_letras.joblib (a pasta "modelo" é
+  criada se não existir).
 - No terminal: amostras por letra, acurácia no teste e relatório por letra.
  
 DEPENDÊNCIAS
 ------------
-numpy, joblib e scikit-learn (sklearn).
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- numpy 2.4.6
+- joblib 1.6.0
+- scikit-learn 1.9.1 (sklearn)
+Importante: o modelo salvo só é garantido de funcionar na mesma versão do
+scikit-learn em que foi treinado. Se trocar de versão, treine de novo.
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
@@ -44,11 +51,10 @@ numpy, joblib e scikit-learn (sklearn).
 # ---------------------------------------------------------------------------
 
 import csv
-import os
-from collections import Counter
-from pathlib import Path
 import joblib
 import numpy as np
+from collections import Counter
+from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split

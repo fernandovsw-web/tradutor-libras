@@ -3,11 +3,12 @@ treinar_sequencias.py
  
 PARA QUE SERVE
 --------------
-Treina o modelo que reconhece os sinais com MOVIMENTO (H, J, X e Z). Ele lê
-as sequências gravadas pelo coletar_sequencias.py (arquivo sequencias.csv),
-treina um modelo de aprendizado de máquina com elas e salva o modelo pronto
-em um arquivo. É o equivalente do treinar.py, só que para sinais em
-movimento em vez de letras paradas.
+Treina o modelo que reconhece os sinais com MOVIMENTO (no projeto: K, BEM, ELE
+e ENSINAR). Ele lê as sequências gravadas pelo coletar_sequencias.py (arquivo 
+sequencias.csv), treina um modelo de aprendizado de máquina com elas e salva o 
+modelo pronto em um arquivo. É o equivalente do treinar.py, só que para sinais 
+em movimento em vez de letras paradas. O modelo aprende todos os sinais que
+estiverem no sequencias.csv, não só os da lista SINAIS atual.
  
 COMO FUNCIONA (passo a passo)
 -----------------------------
@@ -27,29 +28,36 @@ COMO FUNCIONA (passo a passo)
    desempenho de cada sinal.
 6. Depois da prova, treina o modelo de novo usando TODOS os dados, para ele
    aprender o máximo possível, e salva o resultado em
-   ../modelo/modelo_sinais.joblib.
+   backend/treinamento/modelo/modelo_sinais.joblib.
  
 DIFERENÇAS EM RELAÇÃO AO treinar.py
 -----------------------------------
 - Lê o sequencias.csv (e não o pontos.csv).
 - Salva em modelo_sinais.joblib (e não em modelo_letras.joblib).
-- Usa 300 árvores na floresta (em vez de 200), porque cada exemplo aqui tem
-  muito mais números.
+- Usa 300 árvores na floresta (em vez de 200).
 - Mostra também quantos números tem cada sequência.
  
 ENTRADA
 -------
-- Arquivo ../dados/sequencias.csv (gerado pelo coletar_sequencias.py).
+- Arquivo backend/treinamento/dados/sequencias.csv (gerado pelo 
+  coletar_sequencias.py).
  
 SAÍDA
 -----
-- Arquivo ../modelo/modelo_sinais.joblib (a pasta é criada se não existir).
+- Arquivo backend/treinamento/modelo/modelo_sinais.joblib (a pasta "modelo" é
+  criada se não existir).
 - No terminal: total de sequências, sequências por sinal, acurácia no teste
   e relatório por sinal.
  
 DEPENDÊNCIAS
 ------------
-numpy, joblib e scikit-learn (sklearn).
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- numpy 2.4.6
+- joblib 1.6.0
+- scikit-learn 1.9.1 (sklearn)
+Importante: o modelo salvo só é garantido de funcionar na mesma versão do
+scikit-learn em que foi treinado. Se trocar de versão, treine de novo.
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
@@ -57,11 +65,10 @@ numpy, joblib e scikit-learn (sklearn).
 # ---------------------------------------------------------------------------
 
 import csv
-import os
-from collections import Counter
-from pathlib import Path
 import joblib
 import numpy as np
+from collections import Counter
+from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
@@ -137,7 +144,7 @@ print(classification_report(y_teste, previsoes))
 # com todos os dados (treino + teste), para aprender com o máximo de exemplos.
 modelo.fit(X, y)
 # Cria a pasta "modelo" caso ainda não exista
-CAMINHO_MODELO.parent.mkdir(exist_ok=True)
+CAMINHO_MODELO.parent.mkdir(parents=True, exist_ok=True)
 #  Salva o modelo em arquivo para poder ser carregado depois
 joblib.dump(modelo, CAMINHO_MODELO)
 print(f"\nModelo salvo em {CAMINHO_MODELO}")

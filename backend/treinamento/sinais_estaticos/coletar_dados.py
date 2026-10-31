@@ -20,7 +20,7 @@ COMO FUNCIONA (passo a passo)
    uma por imagem em que a mão foi detectada.
 5. Cada amostra vira uma linha no CSV: a primeira coluna é a letra e as
    demais são as coordenadas dos pontos da mão já normalizadas (a função
-   normalizar, que vem do arquivo Utilitários/utils.py, é quem faz esse
+   normalizar, que vem do arquivo backend/utilitarios/utils.py, é quem faz esse
    ajuste nos números).
 6. Ao terminar as amostras, volta a esperar uma nova letra. Para encerrar
    o programa, aperte ESC.
@@ -32,13 +32,18 @@ ENTRADAS
  
 SAÍDA
 -----
-- Arquivo ../dados/pontos.csv (a pasta é criada se não existir).
+- Arquivo backend/treinamento/dados/pontos.csv (a pasta é criada se 
+  não existir).
   Atenção: o arquivo é aberto em modo "a" (acrescentar), então rodar o
   script de novo ADICIONA linhas novas, sem apagar as que já existem.
  
 DEPENDÊNCIAS
 ------------
-opencv-python (cv2), mediapipe e o módulo próprio Utilitários.utils.
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- opencv-python 5.0.0.93 (cv2)
+- mediapipe 0.10.14
+- módulo próprio backend.utilitarios.utils (que usa numpy 2.4.6)
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
@@ -46,7 +51,6 @@ opencv-python (cv2), mediapipe e o módulo próprio Utilitários.utils.
 # ---------------------------------------------------------------------------
 
 import csv
-import os
 import time
 import cv2
 import mediapipe as mp
@@ -65,11 +69,10 @@ ATRASO_INICIAL = 2
 # coletar_dados.py está em backend/treinamento/sinais_estaticos/
 # parents[1] = backend/treinamento
 PASTA_DADOS = Path(__file__).resolve().parents[1] / "dados"
+# Cria a pasta "dados" caso ela ainda não exista
 PASTA_DADOS.mkdir(exist_ok=True)
 
 ARQUIVO = PASTA_DADOS / "pontos.csv"
-# Cria a pasta "dados" caso ela ainda não exista
-PASTA_DADOS.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # PREPARAÇÃO: MEDIAPIPE E WEBCAM

@@ -10,8 +10,9 @@ letra por letra.
  
 COMO FUNCIONA (passo a passo)
 -----------------------------
-1. Carrega o modelo treinado, que fica salvo em ../modelo/modelo_letras.joblib,
-   e mostra no terminal quais letras ele conhece.
+1. Carrega o modelo treinado, que fica salvo em 
+   backend/treinamento/modelo/modelo_letras.joblib, e mostra no terminal 
+   quais letras ele conhece.
 2. Abre a webcam e, em cada imagem, pede para o MediaPipe encontrar a mão.
 3. Se achar a mão, transforma os pontos dela em números com a função
    normalizar (a mesma usada na coleta de dados, para o formato ser igual
@@ -28,7 +29,7 @@ COMO FUNCIONA (passo a passo)
 ENTRADAS
 --------
 - Imagem da webcam (câmera 0).
-- Arquivo do modelo treinado: ../modelo/modelo_letras.joblib
+- Arquivo do modelo treinado: backend/treinamento/modelo/modelo_letras.joblib
 - Teclas: ESPAÇO (adicionar letra), BACKSPACE (apagar) e ESC (sair).
  
 SAÍDA
@@ -39,20 +40,26 @@ SAÍDA
  
 DEPENDÊNCIAS
 ------------
-opencv-python (cv2), mediapipe, joblib e o módulo próprio Utilitários.utils.
-O modelo precisa já ter sido treinado e salvo antes de rodar este script.
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- opencv-python 5.0.0.93 (cv2)
+- mediapipe 0.10.14
+- joblib 1.6.0
+- scikit-learn 1.9.1 (necessário para abrir o modelo salvo)
+- módulo próprio backend.utilitarios.utils (que usa numpy 2.4.6)
+O modelo precisa já ter sido treinado e salvo antes de rodar este script, e na
+mesma versão do scikit-learn (se trocar de versão, treine de novo).
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
 # IMPORTS
 # ---------------------------------------------------------------------------
 
-import os
-from collections import Counter, deque
-from pathlib import Path
 import cv2
 import joblib
 import mediapipe as mp
+from collections import Counter, deque
+from pathlib import Path
 from backend.utilitarios.utils import normalizar
 import warnings
 # Esconde um aviso específico (da biblioteca do MediaPipe) que não afeta o

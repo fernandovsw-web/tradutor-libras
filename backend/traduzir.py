@@ -8,7 +8,7 @@ quadros da câmera sem parar para a rota /api/traduzir e este módulo decide,
 sozinho, qual modelo usar:
 
 - Mão PARADA  -> modelo de letras (modelo_letras.joblib), com votação entre
-                 as últimas leituras (igual ao reconhecer.py).
+                 as últimas leituras (semelhante ao reconhecer.py).
 - Mão em MOVIMENTO -> modelo de sinais com movimento
                  (modelo_sinais.joblib), que olha uma sequência de
                  FRAMES_POR_SINAL imagens (igual ao reconhecer_sinais.py).
@@ -50,8 +50,18 @@ A rota antiga /api/reconhecer continua intacta.
 
 DEPENDÊNCIAS
 ------------
-flask, numpy, opencv-python, mediapipe, joblib e backend.utilitarios.utils.
-Precisa dos dois modelos já treinados em backend/treinamento/modelo/.
+Python 3.11.9 e as bibliotecas (versões usadas no projeto):
+- Flask 3.1.3
+- numpy 2.4.6
+- opencv-python 5.0.0.93 (cv2)
+- mediapipe 0.10.14
+- joblib 1.6.0
+- scikit-learn 1.9.1 (necessário para abrir os modelos salvos)
+- módulo próprio backend.utilitarios.utils
+Precisa dos dois modelos já treinados em backend/treinamento/modelo/ (letras e
+sinais), treinados na mesma versão do scikit-learn. Sem os dois arquivos, o
+servidor nem chega a subir.
+Para instalar tudo de uma vez, veja o requirements.txt e o README.md.
 """
 
 # ---------------------------------------------------------------------------
@@ -61,19 +71,13 @@ Precisa dos dois modelos já treinados em backend/treinamento/modelo/.
 import base64
 import threading
 import time
-import warnings
-from collections import Counter, deque
-from pathlib import Path
-
-# Esconde um aviso do MediaPipe que não afeta o funcionamento
-warnings.filterwarnings("ignore", message=".*SymbolDatabase.GetPrototype.*")
-
 import cv2
 import joblib
 import mediapipe as mp
 import numpy as np
+from collections import Counter, deque
+from pathlib import Path
 from flask import Blueprint, jsonify, request
-
 from backend.utilitarios.utils import (
     FRAMES_POR_SINAL,
     MAX_FRAMES_PERDIDOS,
@@ -81,6 +85,9 @@ from backend.utilitarios.utils import (
     normalizar,
     posicao_punho,
 )
+import warnings
+# Esconde um aviso do MediaPipe que não afeta o funcionamento
+warnings.filterwarnings("ignore", message=".*SymbolDatabase.GetPrototype.*")
 
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÕES (ajuste aqui se precisar calibrar)
