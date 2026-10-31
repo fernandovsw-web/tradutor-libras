@@ -1,22 +1,87 @@
+/*
+style.css
+ 
+PARA QUE SERVE
+--------------
+É a folha de estilos única do site. As duas páginas (index.html e
+tradutor.html) carregam este mesmo arquivo, então ele reúne o visual da
+página inicial, da área de tradução e dos elementos que as duas dividem
+(barra de navegação, botões, etiquetas, rodapé).
+ 
+COMO FUNCIONA
+-------------
+O arquivo está dividido em seções, na ordem em que aparecem no código:
+ 
+1. Fonte e variáveis de cor (:root)
+2. Base (reset e elementos padrão)
+3. Barra de navegação
+4. Hero (página inicial): texto, botões e ilustração
+5. Seção "Sobre o projeto" (página inicial)
+6. Área de tradução (tradutor.html): layout, painéis, câmera, resultados,
+   envio de imagem e dica
+7. Rodapé
+8. Responsivo (telas menores)
+ 
+Todas as cores vêm das variáveis do :root. Para mudar a paleta do site,
+basta editar os valores lá em cima.
+ 
+COMO USAR
+---------
+Nos templates do Flask, a ligação é feita assim:
+ 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+ 
+Por isso o arquivo precisa ficar em static/css/style.css.
+ 
+DEPENDÊNCIAS
+------------
+- Fonte Nunito, carregada do Google Fonts pelo @import abaixo (precisa de
+  internet; sem ela o navegador usa a fonte sans-serif padrão).
+- Classes e ids definidos em index.html e tradutor.html. Se renomear uma
+  classe lá, renomeie aqui também.
+*/
+
+/* 
+---------------------------------------------------------------------------
+FONTE E VARIÁVEIS DE COR
+--------------------------------------------------------------------------- 
+*/
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
 :root {
+    /* Fundo geral das páginas (rosa bem clarinho) */
     --background: #fff1f6;
+    /* Rosa claro: etiquetas, botão "Selecionar arquivo" e hover do secundário */
     --pink-light: #ffe0ec;
+    /* Rosa principal: logo, botão do menu e detalhes decorativos */
     --pink: #e879a5;
+    /* Rosa escuro: títulos em destaque, botão principal e rótulos */
     --pink-dark: #bd4e7c;
+    /* Cor do texto principal */
     --text: #493641;
+    /* Texto secundário: descrições, legendas e observações */
     --muted: #8e7b86;
+    /* Branco dos cartões e painéis */
     --white: #ffffff;
+    /* Cor das bordas finas de cartões, painéis e da barra de navegação */
     --border: #f4dce6;
+    /* Sombra suave dos painéis e do cartão da mão */
     --shadow: 0 12px 35px rgba(173, 83, 123, 0.09);
 }
 
+/* 
+---------------------------------------------------------------------------
+BASE (reset e elementos padrão)
+--------------------------------------------------------------------------- 
+*/
+ 
+/* Faz largura e altura já incluírem padding e borda, o que facilita o layout */
 * {
     box-sizing: border-box;
 }
 
+/* Rolagem suave ao clicar em links internos (ex.: "Sobre o projeto") */
 html {
     scroll-behavior: smooth;
 }
@@ -28,15 +93,23 @@ body {
     color: var(--text);
 }
 
+/* Links herdam a cor do texto e ficam sem sublinhado */
 a {
     color: inherit;
     text-decoration: none;
 }
 
+/* Botões e campos usam a mesma fonte do resto da página */
 button,
 input {
     font: inherit;
 }
+
+/* 
+---------------------------------------------------------------------------
+BARRA DE NAVEGAÇÃO (as duas páginas)
+--------------------------------------------------------------------------- 
+*/
 
 .navbar {
     min-height: 76px;
@@ -55,6 +128,7 @@ input {
     color: var(--pink-dark);
 }
 
+/* O sinal depois do nome (":D") fica na cor mais clara */
 .logo span {
     color: var(--pink);
 }
@@ -72,6 +146,7 @@ input {
     color: var(--pink-dark);
 }
 
+/* Link "Abrir tradutor", destacado como botão */
 .navbar .nav-button {
     padding: 11px 18px;
     background: var(--pink);
@@ -79,6 +154,13 @@ input {
     border-radius: 12px;
 }
 
+/* 
+---------------------------------------------------------------------------
+HERO, 1/2: TEXTO (página inicial)
+--------------------------------------------------------------------------- 
+*/
+
+/* Duas colunas: texto à esquerda, ilustração à direita */
 .hero {
     max-width: 1200px;
     margin: auto;
@@ -89,6 +171,10 @@ input {
     gap: 55px;
 }
 
+/* 
+Etiqueta em letras maiúsculas acima dos títulos (também usada em
+"Sobre o projeto" e na área de tradução) 
+*/
 .tag {
     display: inline-block;
     padding: 8px 13px;
@@ -100,6 +186,7 @@ input {
     letter-spacing: 1px;
 }
 
+/* Título principal das duas páginas; o tamanho acompanha a largura da tela */
 h1 {
     margin: 20px 0;
     font-size: clamp(2.2rem, 4.5vw, 3.7rem);
@@ -107,10 +194,12 @@ h1 {
     letter-spacing: -1px;
 }
 
+/* Trecho do título em destaque */
 h1 span {
     color: var(--pink-dark);
 }
 
+/* Parágrafo de apresentação logo abaixo do título */
 .hero-content > p {
     max-width: 530px;
     color: var(--muted);
@@ -118,6 +207,13 @@ h1 span {
     line-height: 1.9;
 }
 
+/* 
+---------------------------------------------------------------------------
+BOTÕES (as duas páginas)
+--------------------------------------------------------------------------- 
+*/
+ 
+/* Base comum aos dois tipos de botão (servem tanto para <button> quanto <a>) */
 .primary-button,
 .secondary-button {
     display: inline-flex;
@@ -131,16 +227,19 @@ h1 span {
     transition: 0.2s;
 }
 
+/* Ação principal: "Começar a traduzir", "Iniciar câmera" */
 .primary-button {
     background: var(--pink-dark);
     color: white;
 }
 
+/* O :not(:disabled) evita efeito de hover em botão desligado */
 .primary-button:hover:not(:disabled) {
     background: #a93d6a;
     transform: translateY(-2px);
 }
 
+/* Ação secundária: "Parar câmera", "Remover imagem" */
 .secondary-button {
     background: #fff0f6;
     color: var(--pink-dark);
@@ -151,15 +250,27 @@ h1 span {
     background: var(--pink-light);
 }
 
+/* Botão desabilitado (ex.: "Parar câmera" com a câmera desligada) */
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
+/* 
+---------------------------------------------------------------------------
+HERO, 2/2: ILUSTRAÇÃO (página inicial)
+--------------------------------------------------------------------------- 
+*/
+ 
+/* 
+Frase pequena abaixo do botão. O !important é necessário para vencer a
+regra ".hero-content > p", que é mais específica 
+*/
 .small-note {
     font-size: 0.85rem !important;
 }
 
+/* Área da direita, onde ficam o cartão da mão e os enfeites */
 .hero-art {
     position: relative;
     display: grid;
@@ -167,6 +278,7 @@ button:disabled {
     min-height: 340px;
 }
 
+/* Cartão branco levemente inclinado */
 .hand-card {
     width: min(100%, 350px);
     padding: 38px 25px;
@@ -178,6 +290,7 @@ button:disabled {
     transform: rotate(2deg);
 }
 
+/* Círculo com o emoji da mão */
 .hand-icon {
     display: grid;
     place-items: center;
@@ -209,6 +322,7 @@ button:disabled {
     font-size: 0.85rem;
 }
 
+/* Enfeites (♡ e ✿) posicionados nos cantos da área da ilustração */
 .decor {
     position: absolute;
     color: var(--pink);
@@ -225,11 +339,19 @@ button:disabled {
     right: 15px;
 }
 
+/* 
+---------------------------------------------------------------------------
+SEÇÃO "SOBRE O PROJETO" (página inicial)
+--------------------------------------------------------------------------- 
+*/
+ 
+/* Bloco genérico de seção: centralizado, com espaçamento vertical */
 .section {
     padding: 70px 7%;
     text-align: center;
 }
 
+/* Faixa branca que destaca a seção "Sobre" do fundo rosa */
 .about {
     background: white;
 }
@@ -246,6 +368,7 @@ button:disabled {
     line-height: 1.8;
 }
 
+/* Três cartões lado a lado (passos 1, 2 e 3) */
 .feature-grid {
     max-width: 1100px;
     margin: auto;
@@ -266,6 +389,7 @@ button:disabled {
     font-size: 2rem;
 }
 
+/* Texto dos cartões e aviso final compartilham a mesma aparência */
 .feature-card p,
 .disclaimer {
     color: var(--muted);
@@ -273,10 +397,17 @@ button:disabled {
     line-height: 1.7;
 }
 
+/* Aviso de que o projeto é experimental */
 .disclaimer {
     max-width: 800px;
     margin: 30px auto 0;
 }
+
+/* 
+---------------------------------------------------------------------------
+ÁREA DE TRADUÇÃO, 1/5: LAYOUT GERAL (tradutor.html)
+--------------------------------------------------------------------------- 
+*/
 
 .translator-page {
     max-width: 1250px;
@@ -284,6 +415,7 @@ button:disabled {
     padding: 55px 5%;
 }
 
+/* Título e subtítulo no topo da página */
 .page-heading {
     margin-bottom: 35px;
     text-align: center;
@@ -298,6 +430,7 @@ button:disabled {
     line-height: 1.7;
 }
 
+/* Dois painéis lado a lado: câmera (maior) e imagem de referência (menor) */
 .translator-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
@@ -305,6 +438,7 @@ button:disabled {
     gap: 25px;
 }
 
+/* Cartão branco que envolve cada metade da área de tradução */
 .panel {
     min-width: 0;
     padding: 25px;
@@ -314,6 +448,7 @@ button:disabled {
     box-shadow: var(--shadow);
 }
 
+/* Cabeçalho do painel: título e descrição à esquerda, status à direita */
 .panel-heading {
     display: flex;
     justify-content: space-between;
@@ -334,6 +469,10 @@ button:disabled {
     line-height: 1.6;
 }
 
+/* 
+Selo "Câmera desligada" / "Câmera ativa". O JS troca o texto e liga ou
+desliga a classe .active 
+*/
 .status {
     flex-shrink: 0;
     padding: 7px 10px;
@@ -343,11 +482,19 @@ button:disabled {
     font-size: 0.75rem;
 }
 
+/* Selo verde quando a câmera está ligada */
 .status.active {
     background: #e7f8ed;
     color: #247847;
 }
 
+/* 
+---------------------------------------------------------------------------
+ÁREA DE TRADUÇÃO, 2/5: CÂMERA
+--------------------------------------------------------------------------- 
+*/
+ 
+/* Moldura escura 4:3 onde aparece o vídeo (ou o aviso, se estiver desligada) */
 .camera-box {
     position: relative;
     display: grid;
@@ -359,6 +506,11 @@ button:disabled {
     border-radius: 16px;
 }
 
+/* 
+O vídeo começa escondido; o JS adiciona a classe .visible ao ligar a
+câmera. O scaleX(-1) espelha a imagem na tela, como num espelho. É só
+visual: o servidor espelha o frame por conta própria (cv2.flip) 
+*/
 .camera-box video {
     display: none;
     width: 100%;
@@ -371,6 +523,10 @@ button:disabled {
     display: block;
 }
 
+/* 
+Aviso "Sua câmera aparecerá aqui", que cobre a moldura enquanto o vídeo
+não está ativo 
+*/
 .camera-placeholder {
     position: absolute;
     inset: 0;
@@ -386,10 +542,12 @@ button:disabled {
     font-size: 3rem;
 }
 
+/* O JS adiciona .hidden ao ligar a câmera, para o aviso sumir */
 .camera-placeholder.hidden {
     display: none;
 }
 
+/* Linha com os botões "Iniciar câmera" e "Parar câmera" */
 .button-row {
     display: flex;
     flex-wrap: wrap;
@@ -397,10 +555,21 @@ button:disabled {
     margin-top: 17px;
 }
 
+/* Mensagem de ajuda abaixo dos botões (#camera-message) */
 .helper-text {
     margin: 12px 0;
 }
 
+/* 
+---------------------------------------------------------------------------
+ÁREA DE TRADUÇÃO, 3/5: CAIXAS DE RESULTADO
+--------------------------------------------------------------------------- 
+*/
+ 
+/* 
+Caixa onde aparece o sinal reconhecido (#prediction) e, no outro painel,
+o texto traduzido (#translation) 
+*/
 .result-box {
     margin-top: 22px;
     padding: 18px;
@@ -409,6 +578,7 @@ button:disabled {
     border-radius: 15px;
 }
 
+/* Rótulo pequeno em maiúsculas ("SINAL RECONHECIDO", "TEXTO TRADUZIDO") */
 .result-label {
     color: var(--pink-dark);
     font-size: 0.72rem;
@@ -416,6 +586,10 @@ button:disabled {
     letter-spacing: 1px;
 }
 
+/* 
+Texto do resultado, em destaque. O overflow-wrap evita que um texto longo
+estoure a caixa 
+*/
 .result-box > p {
     min-height: 30px;
     margin: 10px 0;
@@ -424,6 +598,13 @@ button:disabled {
     font-weight: 800;
 }
 
+/* 
+---------------------------------------------------------------------------
+ÁREA DE TRADUÇÃO, 4/5: IMAGEM DE REFERÊNCIA
+--------------------------------------------------------------------------- 
+*/
+ 
+/* Área tracejada clicável (é um <label> ligado ao campo de arquivo escondido) */
 .upload-area {
     min-height: 220px;
     padding: 25px;
@@ -448,11 +629,16 @@ button:disabled {
     color: var(--pink-dark);
 }
 
+/* 
+Texto de apoio ("PNG, JPG ou WEBP · Até 5 MB"). O :not() exclui o ícone e
+o botão, que têm estilo próprio 
+*/
 .upload-area > span:not(.upload-icon):not(.upload-button) {
     color: var(--muted);
     font-size: 0.8rem;
 }
 
+/* Botão falso "Selecionar arquivo" (o clique é do <label> inteiro) */
 .upload-button {
     margin-top: 8px;
     padding: 10px 16px;
@@ -462,12 +648,20 @@ button:disabled {
     font-weight: 800;
 }
 
+/* 
+Prévia da imagem escolhida, com o botão de remover. O JS mostra e esconde
+este bloco pelo atributo hidden 
+*/
 .image-preview-box {
     display: grid;
     gap: 12px;
     margin-top: 18px;
 }
 
+/* 
+Garante que o atributo hidden esconda o bloco, já que o display: grid
+acima o sobrescreveria 
+*/
 .image-preview-box[hidden] {
     display: none;
 }
@@ -480,6 +674,12 @@ button:disabled {
     object-fit: contain;
     border-radius: 12px;
 }
+
+/* 
+---------------------------------------------------------------------------
+ÁREA DE TRADUÇÃO, 5/5: CAIXA DE DICA
+--------------------------------------------------------------------------- 
+*/
 
 .tip-box {
     display: flex;
@@ -501,6 +701,12 @@ button:disabled {
     line-height: 1.6;
 }
 
+/* 
+---------------------------------------------------------------------------
+RODAPÉ (as duas páginas)
+--------------------------------------------------------------------------- 
+*/
+
 footer {
     padding: 25px 7%;
     text-align: center;
@@ -508,6 +714,13 @@ footer {
     font-size: 0.85rem;
 }
 
+/* 
+---------------------------------------------------------------------------
+RESPONSIVO (telas menores)
+--------------------------------------------------------------------------- 
+*/
+ 
+/* Tablets e celulares grandes: tudo passa a ficar em uma coluna só */
 @media (max-width: 850px) {
     .hero {
         grid-template-columns: 1fr;
@@ -528,6 +741,7 @@ footer {
     }
 }
 
+/* Celulares pequenos: margens e fontes menores, botões dividindo a largura */
 @media (max-width: 560px) {
     .navbar {
         padding: 15px 5%;
